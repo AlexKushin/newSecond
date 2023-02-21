@@ -29,7 +29,7 @@ public class PropertyManager {
         try (FileInputStream inputStream = new FileInputStream(fileName);
              InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
             prop.load(isr);
-            logger.debug("Property was successfully read yes no");
+            logger.debug("Property ws successfully read yes no");
         } catch (IOException e) {
             logger.error("Can't read property file{}", e.getMessage(), e);
 
