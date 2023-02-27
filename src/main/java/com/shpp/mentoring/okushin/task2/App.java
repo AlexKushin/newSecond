@@ -16,7 +16,7 @@ public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-
+//new comment
         Properties properties = new Properties();
         PropertyManager pm = new PropertyManager();
         pm.readPropertyFile("values.properties", properties);
@@ -25,8 +25,8 @@ public class App {
         System.out.println(type);
         MultiTable multiTable = new MultiTable();
         ArrayList<String> list = multiTable.print(pm.getValue(properties, MIN, type),
-                                                    pm.getValue(properties, MAX, type),
-                                                    pm.getValue(properties, INCREMENT, type));
+                pm.getValue(properties, MAX, type),
+                pm.getValue(properties, INCREMENT, type));
         for (String str : list) {
             logger.info(str);
         }
