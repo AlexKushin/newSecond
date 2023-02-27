@@ -16,7 +16,10 @@ public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-//new comment
+
+
+
+
         Properties properties = new Properties();
         PropertyManager pm = new PropertyManager();
         pm.readPropertyFile("values.properties", properties);
