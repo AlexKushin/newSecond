@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="647256ca-a73a-4345-add1-43308f041f36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/exceptions/AppTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +85,7 @@
       <recent name="com.shpp.mentoring.okushin.task2.test" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PropertyManagerTest">
+  <component name="RunManager" selected="JUnit.MultiTableTest">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.App" />
       <module name="secondApp2" />
@@ -172,9 +171,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MultiTableTest" />
         <item itemvalue="JUnit.PropertyManagerTest" />
         <item itemvalue="JUnit.PropertyManagerTest.testReadPropertyFile" />
-        <item itemvalue="JUnit.MultiTableTest" />
         <item itemvalue="JUnit.MultiTableTest.testGetValueOfByte" />
         <item itemvalue="Application.App" />
       </list>

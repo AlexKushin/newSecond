@@ -41,21 +41,7 @@
       <version>4.2.0</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.mikemybytes</groupId>
-      <artifactId>junit5-formatted-source-parent</artifactId>
-      <version>0.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.mikemybytes</groupId>
-      <artifactId>junit5-formatted-source-tests</artifactId>
-      <version>0.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.mikemybytes</groupId>
-      <artifactId>junit5-formatted-source</artifactId>
-      <version>0.2.0</version>
-    </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
