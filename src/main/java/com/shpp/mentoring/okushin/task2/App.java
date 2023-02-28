@@ -16,7 +16,11 @@ public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-        logger.info("I will have success!!!");
+        logger.info("I will have success!!!1!");
+        logger.info("I will have success!!!1!");
+        logger.info("I will have success!!!1!");
+        logger.info("I will have success!!!1!");
+        logger.info("I will have success!!!1!");
         Properties properties = new Properties();
         PropertyManager pm = new PropertyManager();
         pm.readPropertyFile("values.properties", properties);

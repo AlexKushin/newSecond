@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="647256ca-a73a-4345-add1-43308f041f36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiTableTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="647256ca-a73a-4345-add1-43308f041f36" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
