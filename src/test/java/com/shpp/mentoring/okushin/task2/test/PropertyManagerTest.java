@@ -1,5 +1,6 @@
 package com.shpp.mentoring.okushin.task2.test;
 
+import com.shpp.mentoring.okushin.exceptions.NotExistPropertyKeyException;
 import com.shpp.mentoring.okushin.task2.PropertyManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

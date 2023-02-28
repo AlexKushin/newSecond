@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class MultiplyTable performs multiplication between 2 numeric values and writes result tu ArrayList for further using
@@ -24,7 +25,7 @@ public class MultiplyTable {
      * @param increment - value of increase step
      * @return ArrayList filled with result strings
      */
-    public ArrayList<String> writeMultiplyTableToArrayList(Number min, Number max, Number increment) {
+    public List<String> writeMultiplyTableToArrayList(Number min, Number max, Number increment) {
         logger.info("class= {}", min.getClass());
         ArrayList<String> resultTable = new ArrayList<>();
         StringBuilder a = new StringBuilder();

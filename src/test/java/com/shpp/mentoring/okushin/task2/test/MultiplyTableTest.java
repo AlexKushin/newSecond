@@ -8,11 +8,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Properties;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,6 +60,7 @@ class MultiplyTableTest extends MultiplyTable {
         Mockito.when(prop.getProperty("increment")).thenReturn(String.valueOf(increment));
 
         ArrayList<String> res = new ArrayList<>();
+
         StringBuilder stringBuilder = new StringBuilder();
 
         for (float i = min; i <= max + increment; i += increment) {
