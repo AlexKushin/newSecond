@@ -1,0 +1,973 @@
+Index: src/main/java/com/shpp/mentoring/okushin/task2/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shpp.mentoring.okushin.task2;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Properties;\r\n\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\n\r\n/**\r\n * Hello world!\r\n */\r\npublic class App {\r\n    static String MIN = \"min\";\r\n    static String MAX = \"max\";\r\n    static String INCREMENT = \"increment\";\r\n    private static final Logger logger = LoggerFactory.getLogger(App.class);\r\n\r\n    public static void main(String[] args) {\r\n        System.out.println(\"I will have success!!!\");\r\n        Properties properties = new Properties();\r\n        PropertyManager pm = new PropertyManager();\r\n        pm.readPropertyFile(\"values.properties\", properties);\r\n\r\n        String type = System.getProperty(\"type\");\r\n        MultiplyTable multiplyTable = new MultiplyTable();\r\n        ArrayList<String> list = multiplyTable.writeMultiplyTableToArrayList(pm.getValue(properties, MIN, type),\r\n                pm.getValue(properties, MAX, type), pm.getValue(properties, INCREMENT, type));\r\n        logger.info(\"------my Multiplication Table will be print under this log message------\");\r\n        for (String str : list) {\r\n            logger.info(str);\r\n        }\r\n\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/shpp/mentoring/okushin/task2/App.java b/src/main/java/com/shpp/mentoring/okushin/task2/App.java
+--- a/src/main/java/com/shpp/mentoring/okushin/task2/App.java	
++++ b/src/main/java/com/shpp/mentoring/okushin/task2/App.java	
+@@ -10,22 +10,26 @@
+  * Hello world!
+  */
+ public class App {
+-    static String MIN = "min";
+-    static String MAX = "max";
+-    static String INCREMENT = "increment";
++    public static final String MIN = "min";
++    public static final String MAX = "max";
++    public static final String INCREMENT = "increment";
+     private static final Logger logger = LoggerFactory.getLogger(App.class);
+ 
+     public static void main(String[] args) {
+         System.out.println("I will have success!!!");
++
+         Properties properties = new Properties();
+         PropertyManager pm = new PropertyManager();
+         pm.readPropertyFile("values.properties", properties);
+ 
+         String type = System.getProperty("type");
++
+         MultiplyTable multiplyTable = new MultiplyTable();
+-        ArrayList<String> list = multiplyTable.writeMultiplyTableToArrayList(pm.getValue(properties, MIN, type),
+-                pm.getValue(properties, MAX, type), pm.getValue(properties, INCREMENT, type));
++        ArrayList<String> list = multiplyTable.writeMultiplyTableToArrayList(pm.getNumberPropertiesValue(properties, MIN, type),
++                pm.getNumberPropertiesValue(properties, MAX, type), pm.getNumberPropertiesValue(properties, INCREMENT, type));
++
+         logger.info("------my Multiplication Table will be print under this log message------");
++
+         for (String str : list) {
+             logger.info(str);
+         }
+Index: src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shpp.mentoring.okushin.task2;\r\n\r\nimport com.shpp.mentoring.okushin.exceptions.NotExistPropertyKeyException;\r\nimport com.shpp.mentoring.okushin.exceptions.NotInputtedFormatException;\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport java.io.FileInputStream;\r\nimport java.io.IOException;\r\nimport java.io.InputStreamReader;\r\nimport java.math.BigDecimal;\r\nimport java.math.BigInteger;\r\nimport java.nio.charset.StandardCharsets;\r\nimport java.util.Properties;\r\n\r\npublic class PropertyManager {\r\n    private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);\r\n\r\n\r\n    /**\r\n     * Reads data from file.properties by FILE_NAME in UTF-8 format and writes this data to instance of Properties\r\n     */\r\n    public void readPropertyFile(String fileName, Properties prop) {\r\n\r\n        try (FileInputStream inputStream = new FileInputStream(fileName);\r\n             InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {\r\n            prop.load(isr);\r\n            logger.debug(\"Property was successfully read\");\r\n        } catch (IOException e) {\r\n            logger.error(\"Can't read property file{}\", e.getMessage(), e);\r\n\r\n        }\r\n    }\r\n\r\n\r\n    public static String readPropertiesValue(String propKey, Properties prop) {\r\n\r\n        if (prop.getProperty(propKey) == null) {\r\n            throw new NotExistPropertyKeyException(\"Value of PROPERTY_KEY: \" + propKey + \" doesn't exist\");\r\n        }\r\n        return prop.getProperty(propKey);\r\n    }\r\n\r\n    public Number getValue(Properties prop, String key, String type) {\r\n\r\n        if (type == null) {\r\n            throw new NotInputtedFormatException(\"Type isn't inputted\");\r\n        }\r\n        if (type.equalsIgnoreCase(\"byte\")) {\r\n            logger.info(\"Byte value of {} will be returned\",key);\r\n            return Byte.parseByte(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n        if (type.equalsIgnoreCase(\"long\")) {\r\n            logger.info(\"Long value of {} will be returned\",key);\r\n            return Long.parseLong(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n        if (type.equalsIgnoreCase(\"short\")) {\r\n            logger.info(\"Short value of {} will be returned\",key);\r\n            return Short.parseShort(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n        if (type.equalsIgnoreCase(\"float\")) {\r\n            logger.info(\"Float value of {} will be returned\",key);\r\n            return Float.parseFloat(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n        if (type.equalsIgnoreCase(\"double\")) {\r\n            logger.info(\"Double value of {} will be returned\",key);\r\n            return Double.parseDouble(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n        if (type.equalsIgnoreCase(\"BigInteger\")) {\r\n            logger.info(\"BigInteger value of {} will be returned\",key);\r\n            return new BigInteger(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n        if (type.equalsIgnoreCase(\"BigDecimal\")) {\r\n            logger.info(\"BigDecimal value of {} will be returned\",key);\r\n            return new BigDecimal(PropertyManager.readPropertiesValue(key, prop));\r\n        }\r\n\r\n        logger.info(\"Int value of {} will be returned by default\",key);\r\n\r\n        return Integer.parseInt(PropertyManager.readPropertiesValue(key, prop));\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java b/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java
+--- a/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java	
++++ b/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java	
+@@ -4,6 +4,7 @@
+ import com.shpp.mentoring.okushin.exceptions.NotInputtedFormatException;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
++
+ import java.io.FileInputStream;
+ import java.io.IOException;
+ import java.io.InputStreamReader;
+@@ -12,12 +13,20 @@
+ import java.nio.charset.StandardCharsets;
+ import java.util.Properties;
+ 
++/**
++ * class PropertyManager was created for handy reading property files, getting values from property file by keys
++ * it has methods that read property file, get string value from property file by key,
++ * get numeric value in accordance with inputted type
++ */
+ public class PropertyManager {
+     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);
+ 
+ 
+     /**
+      * Reads data from file.properties by FILE_NAME in UTF-8 format and writes this data to instance of Properties
++     *
++     * @param fileName - name of property file to be read
++     * @param prop     - reference to Property object for storing read property file
+      */
+     public void readPropertyFile(String fileName, Properties prop) {
+ 
+@@ -31,8 +40,15 @@
+         }
+     }
+ 
++    /**
++     * returns string value which is tied with key from property file
++     *
++     * @param propKey - key for getting tied value from the property file
++     * @param prop    - object Properties in which property file was read
++     * @return string value which is tied with key from property file
++     */
+ 
+-    public static String readPropertiesValue(String propKey, Properties prop) {
++    public static String getPropertiesValue(String propKey, Properties prop) {
+ 
+         if (prop.getProperty(propKey) == null) {
+             throw new NotExistPropertyKeyException("Value of PROPERTY_KEY: " + propKey + " doesn't exist");
+@@ -40,43 +56,53 @@
+         return prop.getProperty(propKey);
+     }
+ 
+-    public Number getValue(Properties prop, String key, String type) {
++    /**
++     * returns numeric value in accordance with assigned type, which is stored in property file and tied with key
++     * by default it returns numeric value of Integer type
++     * if format is not inputted, it will throw unchecked NotInputtedFormatException
++     *
++     * @param prop - reference to Property object which stores property file
++     * @param key  - key for getting tied value from the property file
++     * @param type - type of numeric value which will be returned
++     * @return numeric value in accordance with assigned type, which is stored in property file and tied with key
++     */
++    public Number getNumberPropertiesValue(Properties prop, String key, String type) {
+ 
+         if (type == null) {
+             throw new NotInputtedFormatException("Type isn't inputted");
+         }
+         if (type.equalsIgnoreCase("byte")) {
+-            logger.info("Byte value of {} will be returned",key);
+-            return Byte.parseByte(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("Byte value of {} will be returned", key);
++            return Byte.parseByte(PropertyManager.getPropertiesValue(key, prop));
+         }
+         if (type.equalsIgnoreCase("long")) {
+-            logger.info("Long value of {} will be returned",key);
+-            return Long.parseLong(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("Long value of {} will be returned", key);
++            return Long.parseLong(PropertyManager.getPropertiesValue(key, prop));
+         }
+         if (type.equalsIgnoreCase("short")) {
+-            logger.info("Short value of {} will be returned",key);
+-            return Short.parseShort(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("Short value of {} will be returned", key);
++            return Short.parseShort(PropertyManager.getPropertiesValue(key, prop));
+         }
+         if (type.equalsIgnoreCase("float")) {
+-            logger.info("Float value of {} will be returned",key);
+-            return Float.parseFloat(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("Float value of {} will be returned", key);
++            return Float.parseFloat(PropertyManager.getPropertiesValue(key, prop));
+         }
+         if (type.equalsIgnoreCase("double")) {
+-            logger.info("Double value of {} will be returned",key);
+-            return Double.parseDouble(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("Double value of {} will be returned", key);
++            return Double.parseDouble(PropertyManager.getPropertiesValue(key, prop));
+         }
+         if (type.equalsIgnoreCase("BigInteger")) {
+-            logger.info("BigInteger value of {} will be returned",key);
+-            return new BigInteger(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("BigInteger value of {} will be returned", key);
++            return new BigInteger(PropertyManager.getPropertiesValue(key, prop));
+         }
+         if (type.equalsIgnoreCase("BigDecimal")) {
+-            logger.info("BigDecimal value of {} will be returned",key);
+-            return new BigDecimal(PropertyManager.readPropertiesValue(key, prop));
++            logger.info("BigDecimal value of {} will be returned", key);
++            return new BigDecimal(PropertyManager.getPropertiesValue(key, prop));
+         }
+ 
+-        logger.info("Int value of {} will be returned by default",key);
++        logger.info("Int value of {} will be returned by default", key);
+ 
+-        return Integer.parseInt(PropertyManager.readPropertiesValue(key, prop));
++        return Integer.parseInt(PropertyManager.getPropertiesValue(key, prop));
+ 
+     }
+ 
+Index: src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shpp.mentoring.okushin.task2.test;\r\n\r\nimport com.shpp.mentoring.okushin.exceptions.NotExistPropertyKeyException;\r\nimport com.shpp.mentoring.okushin.task2.PropertyManager;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.junit.jupiter.api.extension.ExtendWith;\r\nimport org.junit.jupiter.params.ParameterizedTest;\r\nimport org.junit.jupiter.params.provider.CsvSource;\r\nimport org.mockito.Mock;\r\nimport org.mockito.Mockito;\r\nimport org.mockito.junit.jupiter.MockitoExtension;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.math.BigInteger;\r\nimport java.util.Properties;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@ExtendWith(MockitoExtension.class)\r\nclass PropertyManagerTest extends PropertyManager {\r\n    @Mock\r\n    Properties prop;\r\n    Properties properties = new Properties();\r\n    public PropertyManager pm = new PropertyManager();\r\n\r\n    @Test\r\n    void testReadPropertyFile() {\r\n        Properties props = new Properties();\r\n        PropertyManager pm = new PropertyManager();\r\n        pm.readPropertyFile(\"values.properties\", properties);\r\n        pm.readPropertyFile(\"values.properties\", props);\r\n        assertEquals(properties, props);\r\n    }\r\n\r\n    @Test\r\n    void testReadPropertiesValueEquals() {\r\n\r\n        pm.readPropertyFile(\"values.properties\", properties);\r\n        assertEquals(\"1\", PropertyManager.readPropertiesValue(\"min\", properties));\r\n        assertEquals(\"9\", PropertyManager.readPropertiesValue(\"max\", properties));\r\n        assertEquals(\"1\", PropertyManager.readPropertiesValue(\"increment\", properties));\r\n    }\r\n\r\n    @Test\r\n    void testReadPropertiesValueNotEquals() {\r\n        pm.readPropertyFile(\"values.properties\", properties);\r\n        assertNotEquals(\"0\", PropertyManager.readPropertiesValue(\"min\", properties));\r\n        assertNotEquals(\"1\", PropertyManager.readPropertiesValue(\"max\", properties));\r\n        assertNotEquals(\"2\", PropertyManager.readPropertiesValue(\"increment\", properties));\r\n    }\r\n\r\n    @Test\r\n    void testReadPropertiesExceptionTest() {\r\n\r\n        pm.readPropertyFile(\"values.properties\", properties);\r\n        Exception exception = assertThrows(NotExistPropertyKeyException.class, () -> {\r\n            PropertyManager.readPropertiesValue(\"val\", properties);\r\n        });\r\n        String expectedMessage = \"Value of PROPERTY_KEY: val doesn't exist \";\r\n        String actualMessage = exception.getMessage();\r\n        assertTrue(actualMessage.contains(expectedMessage));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1, 1, min, byte\",\r\n            \"9, 9, max, byte\",\r\n            \"1, 1, increment, byte\"\r\n    })\r\n    void testGetValueOfByte(String expStr, byte expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1, 1, min, short\",\r\n            \"9, 9, max, Short\",\r\n            \"1, 1, increment, ShOrt\"\r\n    })\r\n    void testGetValueOfShort(String expStr, short expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1, 1, min, int\",\r\n            \"9, 9, max, iNt\",\r\n            \"1, 1, increment, Integer\"\r\n    })\r\n    void testGetValueOfInt(String expStr, int expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1,1,min,long\",\r\n            \"9,9,max,loNg\",\r\n            \"1,1,increment,LONg\"\r\n    })\r\n    void testGetValueOfLong(String expStr, long expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1,1,min,float\",\r\n            \"9,9,max,Float\",\r\n            \"1,1,increment,flOat\"\r\n    })\r\n    void testGetValueOfFloat(String expStr, float expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1,1,min,double\",\r\n            \"9,9,max,Double\",\r\n            \"1,1,increment,dOUBle\"\r\n    })\r\n    void testGetValueOfDouble(String expStr, double expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1,1,min,BiGIntegeR\",\r\n            \"9,9,max,biginteger\",\r\n            \"1,1,increment,BigInteger\"\r\n    })\r\n    void testGetValueOfBigInteger(String expStr, BigInteger expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1,1,min,BIgDecimAL\",\r\n            \"9,9,max,bigdecimal\",\r\n            \"1,1,increment,BigDecimal\"\r\n    })\r\n    void testGetValueOfBigDecimal(String expStr, BigDecimal expNum, String key, String type) {\r\n        Mockito.when(prop.getProperty(key)).thenReturn(expStr);\r\n        assertEquals(expNum, pm.getValue(prop, key, type));\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java b/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java
+--- a/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java	
++++ b/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java	
+@@ -36,17 +36,17 @@
+     void testReadPropertiesValueEquals() {
+ 
+         pm.readPropertyFile("values.properties", properties);
+-        assertEquals("1", PropertyManager.readPropertiesValue("min", properties));
+-        assertEquals("9", PropertyManager.readPropertiesValue("max", properties));
+-        assertEquals("1", PropertyManager.readPropertiesValue("increment", properties));
++        assertEquals("1", PropertyManager.getPropertiesValue("min", properties));
++        assertEquals("9", PropertyManager.getPropertiesValue("max", properties));
++        assertEquals("1", PropertyManager.getPropertiesValue("increment", properties));
+     }
+ 
+     @Test
+     void testReadPropertiesValueNotEquals() {
+         pm.readPropertyFile("values.properties", properties);
+-        assertNotEquals("0", PropertyManager.readPropertiesValue("min", properties));
+-        assertNotEquals("1", PropertyManager.readPropertiesValue("max", properties));
+-        assertNotEquals("2", PropertyManager.readPropertiesValue("increment", properties));
++        assertNotEquals("0", PropertyManager.getPropertiesValue("min", properties));
++        assertNotEquals("1", PropertyManager.getPropertiesValue("max", properties));
++        assertNotEquals("2", PropertyManager.getPropertiesValue("increment", properties));
+     }
+ 
+     @Test
+@@ -54,9 +54,9 @@
+ 
+         pm.readPropertyFile("values.properties", properties);
+         Exception exception = assertThrows(NotExistPropertyKeyException.class, () -> {
+-            PropertyManager.readPropertiesValue("val", properties);
++            PropertyManager.getPropertiesValue("val", properties);
+         });
+-        String expectedMessage = "Value of PROPERTY_KEY: val doesn't exist ";
++        String expectedMessage = "Value of PROPERTY_KEY: val doesn't exist";
+         String actualMessage = exception.getMessage();
+         assertTrue(actualMessage.contains(expectedMessage));
+     }
+@@ -69,7 +69,7 @@
+     })
+     void testGetValueOfByte(String expStr, byte expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ 
+     @ParameterizedTest
+@@ -80,7 +80,7 @@
+     })
+     void testGetValueOfShort(String expStr, short expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+ 
+     }
+ 
+@@ -92,7 +92,7 @@
+     })
+     void testGetValueOfInt(String expStr, int expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ 
+     @ParameterizedTest
+@@ -103,7 +103,7 @@
+     })
+     void testGetValueOfLong(String expStr, long expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ 
+     @ParameterizedTest
+@@ -114,7 +114,7 @@
+     })
+     void testGetValueOfFloat(String expStr, float expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ 
+     @ParameterizedTest
+@@ -125,7 +125,7 @@
+     })
+     void testGetValueOfDouble(String expStr, double expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ 
+     @ParameterizedTest
+@@ -136,7 +136,7 @@
+     })
+     void testGetValueOfBigInteger(String expStr, BigInteger expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ 
+     @ParameterizedTest
+@@ -147,6 +147,6 @@
+     })
+     void testGetValueOfBigDecimal(String expStr, BigDecimal expNum, String key, String type) {
+         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
+-        assertEquals(expNum, pm.getValue(prop, key, type));
++        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
+     }
+ }
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"647256ca-a73a-4345-add1-43308f041f36\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/slf4j/roll-by-time-and-size/app.log\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiTable.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiTableTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"JUnit5 Test Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <favorite-branches>\r\n      <branch-storage>\r\n        <map>\r\n          <entry type=\"LOCAL\">\r\n            <value>\r\n              <list>\r\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"main\" />\r\n              </list>\r\n            </value>\r\n          </entry>\r\n        </map>\r\n      </branch-storage>\r\n    </favorite-branches>\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"importingSettings\">\r\n      <MavenImportingSettings>\r\n        <option name=\"workspaceImportEnabled\" value=\"true\" />\r\n      </MavenImportingSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Lye7oHzODp4gRdR6ss0fXS3nIj\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"autoscrollFromSource\" value=\"true\" />\r\n    <option name=\"autoscrollToSource\" value=\"true\" />\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;com.shpp.mentoring.okushin.task2.MultiTable&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/workspace/firstPractice&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\workspace\\secondPractice2\\untitled\" />\r\n      <recent name=\"C:\\workspace\\secondPractice2\\untitled\\src\\main\" />\r\n      <recent name=\"C:\\workspace\\secondPractice2\\untitled\\src\\main\\java\\com\\shpp\\mentoring\\okushin\\exceptions\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"com.shpp.mentoring.okushin.task2.MultiTable\" />\r\n      <recent name=\"com.shpp.mentoring.okushin.task2.PropertyManager\" />\r\n      <recent name=\"com.shpp.mentoring.okushin.task2.App\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"com.shpp.mentoring.okushin.task2.test\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.App\">\r\n    <configuration name=\"App\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.shpp.mentoring.okushin.task2.App\" />\r\n      <module name=\"secondApp2\" />\r\n      <option name=\"VM_PARAMETERS\" value=\"-Dtype=byte\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.shpp.mentoring.okushin.task2.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MultiplyTableTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"secondApp2\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.shpp.mentoring.okushin.task2.test.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.shpp.mentoring.okushin.task2.test\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.shpp.mentoring.okushin.task2.test.MultiplyTableTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MultiplyTableTest.multiplyFloatTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"secondApp2\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.shpp.mentoring.okushin.task2.test.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.shpp.mentoring.okushin.task2.test\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.shpp.mentoring.okushin.task2.test.MultiplyTableTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"multiplyFloatTest(float,float,float)\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MultiplyTableTest.multiplyIntTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"secondApp2\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.shpp.mentoring.okushin.task2.test.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.shpp.mentoring.okushin.task2.test\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.shpp.mentoring.okushin.task2.test.MultiplyTableTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"multiplyIntTest(int,int,int)\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MultiplyTableTest.testPrintFloat\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"secondApp2\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.shpp.mentoring.okushin.task2.test.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.shpp.mentoring.okushin.task2.test\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.shpp.mentoring.okushin.task2.test.MultiplyTableTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testPrintFloat(float,float,float,java.lang.String)\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.App\" />\r\n      <item itemvalue=\"JUnit.MultiplyTableTest.testPrintFloat\" />\r\n      <item itemvalue=\"JUnit.MultiplyTableTest\" />\r\n      <item itemvalue=\"JUnit.MultiplyTableTest.multiplyFloatTest\" />\r\n      <item itemvalue=\"JUnit.MultiplyTableTest.multiplyIntTest\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.MultiplyTableTest.multiplyIntTest\" />\r\n        <item itemvalue=\"JUnit.MultiplyTableTest.multiplyFloatTest\" />\r\n        <item itemvalue=\"JUnit.MultiplyTableTest\" />\r\n        <item itemvalue=\"JUnit.MultiplyTableTest.testPrintFloat\" />\r\n        <item itemvalue=\"Application.App\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"647256ca-a73a-4345-add1-43308f041f36\" name=\"Changes\" comment=\"\" />\r\n      <created>1676847586209</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1676847586209</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"main\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_FILTERS\">\r\n      <map>\r\n        <entry key=\"Branch\">\r\n          <value>\r\n            <list>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"develop\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"main\" />\r\n                </option>\r\n              </RecentGroup>\r\n            </list>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand>\r\n      <path>\r\n        <item name=\"untitled\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n        <item name=\"untitled\" type=\"462c0819:PsiDirectoryNode\" />\r\n      </path>\r\n    </expand>\r\n    <select />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,17 +5,16 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="647256ca-a73a-4345-add1-43308f041f36" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/slf4j/roll-by-time-and-size/app.log" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/slf4j/roll-by-time-and-size/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/slf4j/roll-by-time-and-size/app.log" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiTableTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -26,8 +25,8 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
+-        <option value="Class" />
+         <option value="JUnit5 Test Class" />
++        <option value="Class" />
+       </list>
+     </option>
+   </component>
+@@ -75,6 +74,7 @@
+     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;com.shpp.mentoring.okushin.task2.MultiTable&quot;,
+     &quot;last_opened_file_path&quot;: &quot;C:/workspace/firstPractice&quot;,
+@@ -96,7 +96,7 @@
+       <recent name="com.shpp.mentoring.okushin.task2.test" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Application.App">
++  <component name="RunManager" selected="JUnit.PropertyManagerTest">
+     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.App" />
+       <module name="secondApp2" />
+@@ -111,22 +111,20 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="MultiplyTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="ForKate" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.ForKate" />
+       <module name="secondApp2" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.test.*" />
++          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
+-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+-      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="MultiplyTableTest.multiplyFloatTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="MultiplyTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="secondApp2" />
+       <extension name="coverage">
+         <pattern>
+@@ -136,13 +134,12 @@
+       </extension>
+       <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
+       <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+-      <option name="METHOD_NAME" value="multiplyFloatTest(float,float,float)" />
+-      <option name="TEST_OBJECT" value="method" />
++      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="MultiplyTableTest.multiplyIntTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="PropertyManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="secondApp2" />
+       <extension name="coverage">
+         <pattern>
+@@ -151,14 +148,13 @@
+         </pattern>
+       </extension>
+       <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
+-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+-      <option name="METHOD_NAME" value="multiplyIntTest(int,int,int)" />
+-      <option name="TEST_OBJECT" value="method" />
++      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.PropertyManagerTest" />
++      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="MultiplyTableTest.testPrintFloat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="PropertyManagerTest.testReadPropertiesExceptionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="secondApp2" />
+       <extension name="coverage">
+         <pattern>
+@@ -167,27 +163,27 @@
+         </pattern>
+       </extension>
+       <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
+-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+-      <option name="METHOD_NAME" value="testPrintFloat(float,float,float,java.lang.String)" />
++      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.PropertyManagerTest" />
++      <option name="METHOD_NAME" value="testReadPropertiesExceptionTest" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+     <list>
++      <item itemvalue="Application.ForKate" />
+       <item itemvalue="Application.App" />
+-      <item itemvalue="JUnit.MultiplyTableTest.testPrintFloat" />
++      <item itemvalue="JUnit.PropertyManagerTest" />
++      <item itemvalue="JUnit.PropertyManagerTest.testReadPropertiesExceptionTest" />
+       <item itemvalue="JUnit.MultiplyTableTest" />
+-      <item itemvalue="JUnit.MultiplyTableTest.multiplyFloatTest" />
+-      <item itemvalue="JUnit.MultiplyTableTest.multiplyIntTest" />
+     </list>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="JUnit.MultiplyTableTest.multiplyIntTest" />
+-        <item itemvalue="JUnit.MultiplyTableTest.multiplyFloatTest" />
++        <item itemvalue="JUnit.PropertyManagerTest" />
++        <item itemvalue="JUnit.PropertyManagerTest.testReadPropertiesExceptionTest" />
+         <item itemvalue="JUnit.MultiplyTableTest" />
+-        <item itemvalue="JUnit.MultiplyTableTest.testPrintFloat" />
+         <item itemvalue="Application.App" />
++        <item itemvalue="Application.ForKate" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -200,6 +196,14 @@
+       <option name="presentableId" value="Default" />
+       <updated>1676847586209</updated>
+     </task>
++    <task id="LOCAL-00001" summary="static methods was changed&#10;test was written&#10;code was cleaned after SonarLint scanning">
++      <created>1677551722344</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1677551722344</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -244,6 +248,10 @@
+         </entry>
+       </map>
+     </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="static methods was changed&#10;test was written&#10;code was cleaned after SonarLint scanning" />
++    <option name="LAST_COMMIT_MESSAGE" value="static methods was changed&#10;test was written&#10;code was cleaned after SonarLint scanning" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand>
+Index: src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shpp.mentoring.okushin.task2;\r\n\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport java.math.BigDecimal;\r\nimport java.util.ArrayList;\r\n\r\n\r\n\r\npublic class MultiplyTable {\r\n\r\n\r\n    private static final Logger logger = LoggerFactory.getLogger(MultiplyTable.class);\r\n\r\n\r\n\r\n    //what a difference between valueOf() and ...parse() methods?\r\n    //for a what we need to assign type of numbers? they have to be in certain range?\r\n    //\r\n\r\n    public ArrayList<String> writeMultiplyTableToArrayList(Number min, Number max, Number increment) {\r\n        logger.info(\"class = {}\", min.getClass());\r\n        ArrayList <String> resultTable = new ArrayList<>();\r\n        StringBuilder resultString = new StringBuilder();\r\n\r\n        logger.info(\"Argument of Number type will be cast to BigDecimal type\");\r\n        BigDecimal i = new BigDecimal(min.toString());\r\n        BigDecimal j = new BigDecimal(min.toString());\r\n        BigDecimal maxBD = new BigDecimal(max.toString());\r\n        BigDecimal incrementBD = new BigDecimal(increment.toString());\r\n\r\n        for (; i.compareTo(maxBD.add(incrementBD))<=0; i = i.add(incrementBD)) {\r\n            if (!resultString.toString().equals(\"\")) {\r\n                resultTable.add(resultString.toString());\r\n                logger.info(\"Result string was written to arraylist\");\r\n            }\r\n            resultString = new StringBuilder();\r\n            for (; j.compareTo(maxBD)<=0; j = j.add(incrementBD)) {\r\n                resultString.append(i).append(\" * \").append(j).append(\" = \").append(multiply(i,j)).append(\"\\t\");\r\n            }\r\n            j = new BigDecimal(min.toString());\r\n        }\r\n        logger.info(\"Multiplication table was successfully written\");\r\n        return resultTable;\r\n    }\r\n    public BigDecimal multiply(BigDecimal i, BigDecimal j){\r\n        return i.multiply(j);\r\n    }\r\n\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java b/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java
+--- a/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java	
++++ b/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java	
+@@ -2,10 +2,14 @@
+ 
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
++
+ import java.math.BigDecimal;
+ import java.util.ArrayList;
+ 
+-
++/**
++ * class MultiplyTable performs operation of numbers multiplication and writes string result to arrayList for
++ * further usage, values for operations are assigned in property file
++ */
+ 
+ public class MultiplyTable {
+ 
+@@ -13,37 +17,55 @@
+     private static final Logger logger = LoggerFactory.getLogger(MultiplyTable.class);
+ 
+ 
+-
+     //what a difference between valueOf() and ...parse() methods?
+     //for a what we need to assign type of numbers? they have to be in certain range?
+     //
+ 
++    /**
++     * casts values of Number type to BigDecimal type,
++     * performs writing of multiplication result to ArrayList string by string
++     *
++     * @param min       - min value of the multiplier
++     * @param max       - max value of the multiplier
++     * @param increment - step of increasing
++     * @return - ArrayList which is filled with strings of multiplication result
++     */
+     public ArrayList<String> writeMultiplyTableToArrayList(Number min, Number max, Number increment) {
+         logger.info("class = {}", min.getClass());
+-        ArrayList <String> resultTable = new ArrayList<>();
++
++        ArrayList<String> resultTable = new ArrayList<>();
+         StringBuilder resultString = new StringBuilder();
+ 
+-        logger.info("Argument of Number type will be cast to BigDecimal type");
++        logger.info("Arguments of Number type will be cast to BigDecimal type");
++
+         BigDecimal i = new BigDecimal(min.toString());
+         BigDecimal j = new BigDecimal(min.toString());
+         BigDecimal maxBD = new BigDecimal(max.toString());
+         BigDecimal incrementBD = new BigDecimal(increment.toString());
+ 
+-        for (; i.compareTo(maxBD.add(incrementBD))<=0; i = i.add(incrementBD)) {
++        for (; i.compareTo(maxBD.add(incrementBD)) <= 0; i = i.add(incrementBD)) {
+             if (!resultString.toString().equals("")) {
+                 resultTable.add(resultString.toString());
+                 logger.info("Result string was written to arraylist");
+             }
+             resultString = new StringBuilder();
+-            for (; j.compareTo(maxBD)<=0; j = j.add(incrementBD)) {
+-                resultString.append(i).append(" * ").append(j).append(" = ").append(multiply(i,j)).append("\t");
++            for (; j.compareTo(maxBD) <= 0; j = j.add(incrementBD)) {
++                resultString.append(i).append(" * ").append(j).append(" = ").append(multiply(i, j)).append("\t");
+             }
+             j = new BigDecimal(min.toString());
+         }
+         logger.info("Multiplication table was successfully written");
+         return resultTable;
+     }
+-    public BigDecimal multiply(BigDecimal i, BigDecimal j){
++
++    /**
++     * performs operation of multiplication of 2 BigDecimals
++     *
++     * @param i - first multiplier
++     * @param j -  second multiplier
++     * @return - result of multiplication
++     */
++    public BigDecimal multiply(BigDecimal i, BigDecimal j) {
+         return i.multiply(j);
+     }
+ 
+Index: src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shpp.mentoring.okushin.task2.test;\r\n\r\nimport com.shpp.mentoring.okushin.task2.MultiplyTable;\r\nimport com.shpp.mentoring.okushin.task2.PropertyManager;\r\nimport org.junit.jupiter.api.extension.ExtendWith;\r\nimport org.junit.jupiter.params.ParameterizedTest;\r\nimport org.junit.jupiter.params.provider.CsvSource;\r\nimport org.mockito.Mock;\r\nimport org.mockito.Mockito;\r\nimport org.mockito.junit.jupiter.MockitoExtension;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.util.ArrayList;\r\nimport java.util.Properties;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@ExtendWith(MockitoExtension.class)\r\nclass MultiplyTableTest extends MultiplyTable {\r\n    @Mock\r\n    Properties prop;\r\n\r\n\r\n    private static final MultiplyTable MULTIPLY_TABLE_TEST = new MultiplyTable();\r\n    public static final PropertyManager pm =new PropertyManager();\r\n\r\n\r\n\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"1, 9, 1, int\",\r\n           \"1, 20, 5, int\",\r\n            \"3, 30, 3, int\"\r\n    })\r\n    void testPrintInt(int min, int max, int increment, String type) {\r\n        Mockito.when(prop.getProperty(\"min\")).thenReturn(String.valueOf(min));\r\n        Mockito.when(prop.getProperty(\"max\")).thenReturn(String.valueOf(max));\r\n        Mockito.when(prop.getProperty(\"increment\")).thenReturn(String.valueOf(increment));\r\n        ArrayList<String> res = new ArrayList<>();\r\n        StringBuilder stringBuilder = new StringBuilder();\r\n        for (int i = min; i <= max+increment; i += increment) {\r\n            if(!stringBuilder.toString().equals(\"\")) {\r\n                res.add(stringBuilder.toString());\r\n            }\r\n            stringBuilder=new StringBuilder();\r\n            for (int j = min; j <= max; j += increment) {\r\n                stringBuilder.append(i).append(\" * \").append(j).append(\" = \").append(i * j).append(\"  \");\r\n            }\r\n        }\r\n        assertEquals(res, MULTIPLY_TABLE_TEST.writeMultiplyTableToArrayList(pm.getValue(prop, \"min\", type),\r\n                                                pm.getValue(prop, \"max\", type),\r\n                                               pm.getValue(prop, \"increment\", type)));\r\n\r\n    }\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"5.5, 55, 1, flOAt\"\r\n    })\r\n    void testPrintFloat(float min, float max, float increment, String type) {\r\n        Mockito.when(prop.getProperty(\"min\")).thenReturn(String.valueOf(min));\r\n        Mockito.when(prop.getProperty(\"max\")).thenReturn(String.valueOf(max));\r\n        Mockito.when(prop.getProperty(\"increment\")).thenReturn(String.valueOf(increment));\r\n        ArrayList<String> res = new ArrayList<>();\r\n        StringBuilder stringBuilder = new StringBuilder();\r\n        for (float i = min; i <= max+increment; i += increment) {\r\n            if(!stringBuilder.toString().equals(\"\")) {\r\n                res.add(stringBuilder.toString());\r\n            }\r\n            stringBuilder=new StringBuilder();\r\n            for (float j = min; j <= max; j += increment) {\r\n                stringBuilder.append(i).append(\" * \").append(j).append(\" = \").append(i * j).append(\"\\t\");\r\n            }\r\n        }\r\n        assertEquals(res, MULTIPLY_TABLE_TEST.writeMultiplyTableToArrayList(pm.getValue(prop, \"min\", type),\r\n                pm.getValue(prop, \"max\", type),\r\n                pm.getValue(prop, \"increment\", type)));\r\n\r\n    }\r\n\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"6, 2, 3\",\r\n            \"144, 12, 12\",\r\n            \"45632, 124, 368\"\r\n    })\r\n    void multiplyIntTest(int res, int x, int y) {\r\n        assertEquals(new BigDecimal(res), MULTIPLY_TABLE_TEST.multiply(new BigDecimal(x), new BigDecimal(y)));\r\n    }\r\n    @ParameterizedTest\r\n    @CsvSource({\r\n            \"109.375, 12.5, 8.75\",\r\n            \"30.4319, 3.47, 8.77\",\r\n            \"54.39, 7.77, 7\",\r\n    })\r\n    void multiplyFloatTest(float exceptRes, float x, float y) {\r\n        BigDecimal exceptResBD = new BigDecimal(exceptRes);\r\n        BigDecimal resultBD = MULTIPLY_TABLE_TEST.multiply(new BigDecimal(x), new BigDecimal(y));\r\n        assertTrue(exceptResBD.compareTo(resultBD)<=0.00000001);\r\n\r\n    }\r\n\r\n\r\n}
+===================================================================
+diff --git a/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java b/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java
+--- a/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java	
++++ b/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java	
+@@ -22,15 +22,13 @@
+ 
+ 
+     private static final MultiplyTable MULTIPLY_TABLE_TEST = new MultiplyTable();
+-    public static final PropertyManager pm =new PropertyManager();
++    public static final PropertyManager pm = new PropertyManager();
+ 
+ 
+-
+-
+     @ParameterizedTest
+     @CsvSource({
+             "1, 9, 1, int",
+-           "1, 20, 5, int",
++            "1, 20, 5, int",
+             "3, 30, 3, int"
+     })
+     void testPrintInt(int min, int max, int increment, String type) {
+@@ -39,20 +37,21 @@
+         Mockito.when(prop.getProperty("increment")).thenReturn(String.valueOf(increment));
+         ArrayList<String> res = new ArrayList<>();
+         StringBuilder stringBuilder = new StringBuilder();
+-        for (int i = min; i <= max+increment; i += increment) {
+-            if(!stringBuilder.toString().equals("")) {
++        for (int i = min; i <= max + increment; i += increment) {
++            if (!stringBuilder.toString().equals("")) {
+                 res.add(stringBuilder.toString());
+             }
+-            stringBuilder=new StringBuilder();
++            stringBuilder = new StringBuilder();
+             for (int j = min; j <= max; j += increment) {
+-                stringBuilder.append(i).append(" * ").append(j).append(" = ").append(i * j).append("  ");
++                stringBuilder.append(i).append(" * ").append(j).append(" = ").append(i * j).append("\t");
+             }
+         }
+-        assertEquals(res, MULTIPLY_TABLE_TEST.writeMultiplyTableToArrayList(pm.getValue(prop, "min", type),
+-                                                pm.getValue(prop, "max", type),
+-                                               pm.getValue(prop, "increment", type)));
++        assertEquals(res, MULTIPLY_TABLE_TEST.writeMultiplyTableToArrayList(pm.getNumberPropertiesValue(prop, "min", type),
++                pm.getNumberPropertiesValue(prop, "max", type),
++                pm.getNumberPropertiesValue(prop, "increment", type)));
+ 
+     }
++
+     @ParameterizedTest
+     @CsvSource({
+             "5.5, 55, 1, flOAt"
+@@ -63,18 +62,18 @@
+         Mockito.when(prop.getProperty("increment")).thenReturn(String.valueOf(increment));
+         ArrayList<String> res = new ArrayList<>();
+         StringBuilder stringBuilder = new StringBuilder();
+-        for (float i = min; i <= max+increment; i += increment) {
+-            if(!stringBuilder.toString().equals("")) {
++        for (float i = min; i <= max + increment; i += increment) {
++            if (!stringBuilder.toString().equals("")) {
+                 res.add(stringBuilder.toString());
+             }
+-            stringBuilder=new StringBuilder();
++            stringBuilder = new StringBuilder();
+             for (float j = min; j <= max; j += increment) {
+                 stringBuilder.append(i).append(" * ").append(j).append(" = ").append(i * j).append("\t");
+             }
+         }
+-        assertEquals(res, MULTIPLY_TABLE_TEST.writeMultiplyTableToArrayList(pm.getValue(prop, "min", type),
+-                pm.getValue(prop, "max", type),
+-                pm.getValue(prop, "increment", type)));
++        assertEquals(res, MULTIPLY_TABLE_TEST.writeMultiplyTableToArrayList(pm.getNumberPropertiesValue(prop, "min", type),
++                pm.getNumberPropertiesValue(prop, "max", type),
++                pm.getNumberPropertiesValue(prop, "increment", type)));
+ 
+     }
+ 
+@@ -87,6 +86,7 @@
+     void multiplyIntTest(int res, int x, int y) {
+         assertEquals(new BigDecimal(res), MULTIPLY_TABLE_TEST.multiply(new BigDecimal(x), new BigDecimal(y)));
+     }
++
+     @ParameterizedTest
+     @CsvSource({
+             "109.375, 12.5, 8.75",
+@@ -96,7 +96,7 @@
+     void multiplyFloatTest(float exceptRes, float x, float y) {
+         BigDecimal exceptResBD = new BigDecimal(exceptRes);
+         BigDecimal resultBD = MULTIPLY_TABLE_TEST.multiply(new BigDecimal(x), new BigDecimal(y));
+-        assertTrue(exceptResBD.compareTo(resultBD)<=0.00000001);
++        assertTrue(exceptResBD.compareTo(resultBD) <= 0.00000001);
+ 
+     }
+ 
+Index: slf4j/roll-by-time-and-size/app.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>2023-02-28 00:53:47 DEBUG Property was successfully read\r\n2023-02-28 01:08:32 DEBUG Property was successfully read\r\n2023-02-28 01:09:28 DEBUG Property was successfully read\r\n2023-02-28 01:26:56 ERROR Can't read property filevaluels.properties (РќРµ СѓРґР°РµС‚СЃСЏ РЅР°Р№С‚Рё СѓРєР°Р·Р°РЅРЅС‹Р№ С„Р°Р№Р»)\r\njava.io.FileNotFoundException: valuels.properties (РќРµ СѓРґР°РµС‚СЃСЏ РЅР°Р№С‚Рё СѓРєР°Р·Р°РЅРЅС‹Р№ С„Р°Р№Р»)\r\n\tat java.base/java.io.FileInputStream.open0(Native Method)\r\n\tat java.base/java.io.FileInputStream.open(FileInputStream.java:219)\r\n\tat java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)\r\n\tat java.base/java.io.FileInputStream.<init>(FileInputStream.java:112)\r\n\tat com.shpp.mentoring.okushin.task2.PropertyManager.readPropertyFile(PropertyManager.java:32)\r\n\tat com.shpp.mentoring.okushin.task2.test.PropertyManagerTest.testReadPropertyFile(PropertyManagerTest.java:34)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)\r\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:214)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:210)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:135)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:66)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)\r\n\tat org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)\r\n\tat org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)\r\n\tat com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)\r\n\tat com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)\r\n\tat com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)\r\n\tat com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)\r\n\tat com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:235)\r\n\tat com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:54)\r\n2023-02-28 01:28:38 DEBUG Property was successfully read\r\n2023-02-28 01:30:00 DEBUG Property was successfully read\r\n2023-02-28 01:30:48 DEBUG Property was successfully read\r\n2023-02-28 01:30:48 DEBUG Property was successfully read\r\n2023-02-28 02:08:55 DEBUG Property was successfully read\r\n2023-02-28 02:10:36 DEBUG Property was successfully read\r\n2023-02-28 02:10:37 INFO Int value of min will be returned by default\r\n2023-02-28 02:10:37 INFO Int value of max will be returned by default\r\n2023-02-28 02:10:37 INFO Int value of increment will be returned by default\r\n2023-02-28 02:10:37 INFO 1 * 1 = 1  1 * 2 = 2  1 * 3 = 3  1 * 4 = 4  1 * 5 = 5  1 * 6 = 6  1 * 7 = 7  1 * 8 = 8  1 * 9 = 9  \r\n2023-02-28 02:10:37 INFO 2 * 1 = 2  2 * 2 = 4  2 * 3 = 6  2 * 4 = 8  2 * 5 = 10  2 * 6 = 12  2 * 7 = 14  2 * 8 = 16  2 * 9 = 18  \r\n2023-02-28 02:10:37 INFO 3 * 1 = 3  3 * 2 = 6  3 * 3 = 9  3 * 4 = 12  3 * 5 = 15  3 * 6 = 18  3 * 7 = 21  3 * 8 = 24  3 * 9 = 27  \r\n2023-02-28 02:10:37 INFO 4 * 1 = 4  4 * 2 = 8  4 * 3 = 12  4 * 4 = 16  4 * 5 = 20  4 * 6 = 24  4 * 7 = 28  4 * 8 = 32  4 * 9 = 36  \r\n2023-02-28 02:10:37 INFO 5 * 1 = 5  5 * 2 = 10  5 * 3 = 15  5 * 4 = 20  5 * 5 = 25  5 * 6 = 30  5 * 7 = 35  5 * 8 = 40  5 * 9 = 45  \r\n2023-02-28 02:10:37 INFO 6 * 1 = 6  6 * 2 = 12  6 * 3 = 18  6 * 4 = 24  6 * 5 = 30  6 * 6 = 36  6 * 7 = 42  6 * 8 = 48  6 * 9 = 54  \r\n2023-02-28 02:10:37 INFO 7 * 1 = 7  7 * 2 = 14  7 * 3 = 21  7 * 4 = 28  7 * 5 = 35  7 * 6 = 42  7 * 7 = 49  7 * 8 = 56  7 * 9 = 63  \r\n2023-02-28 02:10:37 INFO 8 * 1 = 8  8 * 2 = 16  8 * 3 = 24  8 * 4 = 32  8 * 5 = 40  8 * 6 = 48  8 * 7 = 56  8 * 8 = 64  8 * 9 = 72  \r\n2023-02-28 02:10:37 INFO 9 * 1 = 9  9 * 2 = 18  9 * 3 = 27  9 * 4 = 36  9 * 5 = 45  9 * 6 = 54  9 * 7 = 63  9 * 8 = 72  9 * 9 = 81  \r\n2023-02-28 02:14:50 DEBUG Property was successfully read\r\n2023-02-28 02:14:50 INFO Int value of min will be returned by default\r\n2023-02-28 02:14:50 INFO Int value of max will be returned by default\r\n2023-02-28 02:14:50 INFO Int value of increment will be returned by default\r\n2023-02-28 02:14:50 INFO 1 * 1 = 1  1 * 2 = 2  1 * 3 = 3  1 * 4 = 4  1 * 5 = 5  1 * 6 = 6  1 * 7 = 7  1 * 8 = 8  1 * 9 = 9  \r\n2023-02-28 02:14:50 INFO 2 * 1 = 2  2 * 2 = 4  2 * 3 = 6  2 * 4 = 8  2 * 5 = 10  2 * 6 = 12  2 * 7 = 14  2 * 8 = 16  2 * 9 = 18  \r\n2023-02-28 02:14:50 INFO 3 * 1 = 3  3 * 2 = 6  3 * 3 = 9  3 * 4 = 12  3 * 5 = 15  3 * 6 = 18  3 * 7 = 21  3 * 8 = 24  3 * 9 = 27  \r\n2023-02-28 02:14:50 INFO 4 * 1 = 4  4 * 2 = 8  4 * 3 = 12  4 * 4 = 16  4 * 5 = 20  4 * 6 = 24  4 * 7 = 28  4 * 8 = 32  4 * 9 = 36  \r\n2023-02-28 02:14:50 INFO 5 * 1 = 5  5 * 2 = 10  5 * 3 = 15  5 * 4 = 20  5 * 5 = 25  5 * 6 = 30  5 * 7 = 35  5 * 8 = 40  5 * 9 = 45  \r\n2023-02-28 02:14:50 INFO 6 * 1 = 6  6 * 2 = 12  6 * 3 = 18  6 * 4 = 24  6 * 5 = 30  6 * 6 = 36  6 * 7 = 42  6 * 8 = 48  6 * 9 = 54  \r\n2023-02-28 02:14:50 INFO 7 * 1 = 7  7 * 2 = 14  7 * 3 = 21  7 * 4 = 28  7 * 5 = 35  7 * 6 = 42  7 * 7 = 49  7 * 8 = 56  7 * 9 = 63  \r\n2023-02-28 02:14:50 INFO 8 * 1 = 8  8 * 2 = 16  8 * 3 = 24  8 * 4 = 32  8 * 5 = 40  8 * 6 = 48  8 * 7 = 56  8 * 8 = 64  8 * 9 = 72  \r\n2023-02-28 02:14:50 INFO 9 * 1 = 9  9 * 2 = 18  9 * 3 = 27  9 * 4 = 36  9 * 5 = 45  9 * 6 = 54  9 * 7 = 63  9 * 8 = 72  9 * 9 = 81  \r\n2023-02-28 02:15:14 DEBUG Property was successfully read\r\n2023-02-28 02:15:14 INFO Byte value of min will be returned\r\n2023-02-28 02:15:14 INFO Byte value of max will be returned\r\n2023-02-28 02:17:54 INFO Float value of min will be returned\r\n2023-02-28 02:17:54 INFO Float value of max will be returned\r\n2023-02-28 02:17:54 INFO Float value of increment will be returned\r\n2023-02-28 02:17:54 INFO Int value of min will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of max will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of increment will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of min will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of max will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of increment will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of min will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of max will be returned by default\r\n2023-02-28 02:17:54 INFO Int value of increment will be returned by default\r\n2023-02-28 02:29:32 DEBUG Property was successfully read\r\n2023-02-28 02:29:32 INFO Byte value of min will be returned\r\n2023-02-28 02:29:32 INFO Byte value of max will be returned\r\n2023-02-28 02:31:15 DEBUG Property was successfully read\r\n2023-02-28 02:31:15 INFO Long value of min will be returned\r\n2023-02-28 02:31:15 INFO Long value of max will be returned\r\n2023-02-28 02:31:15 INFO Long value of increment will be returned\r\n2023-02-28 02:31:15 INFO Argument of Number type will be cast to BigDecimal type\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Result string was written to arraylist\r\n2023-02-28 02:31:15 INFO Multiplication table was successfully written\r\n2023-02-28 02:31:15 INFO ------my Multiplication Table will be print under this log message------\r\n2023-02-28 02:31:15 INFO 1 * 1 = 1  1 * 2 = 2  1 * 3 = 3  1 * 4 = 4  1 * 5 = 5  1 * 6 = 6  1 * 7 = 7  1 * 8 = 8  1 * 9 = 9  \r\n2023-02-28 02:31:15 INFO 2 * 1 = 2  2 * 2 = 4  2 * 3 = 6  2 * 4 = 8  2 * 5 = 10  2 * 6 = 12  2 * 7 = 14  2 * 8 = 16  2 * 9 = 18  \r\n2023-02-28 02:31:15 INFO 3 * 1 = 3  3 * 2 = 6  3 * 3 = 9  3 * 4 = 12  3 * 5 = 15  3 * 6 = 18  3 * 7 = 21  3 * 8 = 24  3 * 9 = 27  \r\n2023-02-28 02:31:15 INFO 4 * 1 = 4  4 * 2 = 8  4 * 3 = 12  4 * 4 = 16  4 * 5 = 20  4 * 6 = 24  4 * 7 = 28  4 * 8 = 32  4 * 9 = 36  \r\n2023-02-28 02:31:15 INFO 5 * 1 = 5  5 * 2 = 10  5 * 3 = 15  5 * 4 = 20  5 * 5 = 25  5 * 6 = 30  5 * 7 = 35  5 * 8 = 40  5 * 9 = 45  \r\n2023-02-28 02:31:15 INFO 6 * 1 = 6  6 * 2 = 12  6 * 3 = 18  6 * 4 = 24  6 * 5 = 30  6 * 6 = 36  6 * 7 = 42  6 * 8 = 48  6 * 9 = 54  \r\n2023-02-28 02:31:15 INFO 7 * 1 = 7  7 * 2 = 14  7 * 3 = 21  7 * 4 = 28  7 * 5 = 35  7 * 6 = 42  7 * 7 = 49  7 * 8 = 56  7 * 9 = 63  \r\n2023-02-28 02:31:15 INFO 8 * 1 = 8  8 * 2 = 16  8 * 3 = 24  8 * 4 = 32  8 * 5 = 40  8 * 6 = 48  8 * 7 = 56  8 * 8 = 64  8 * 9 = 72  \r\n2023-02-28 02:31:15 INFO 9 * 1 = 9  9 * 2 = 18  9 * 3 = 27  9 * 4 = 36  9 * 5 = 45  9 * 6 = 54  9 * 7 = 63  9 * 8 = 72  9 * 9 = 81  \r\n2023-02-28 02:32:07 DEBUG Property was successfully read\r\n2023-02-28 02:32:07 INFO Long value of min will be returned\r\n2023-02-28 02:32:07 INFO Long value of max will be returned\r\n2023-02-28 02:32:07 INFO Long value of increment will be returned\r\n2023-02-28 02:32:07 INFO Argument of Number type will be cast to BigDecimal type\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Result string was written to arraylist\r\n2023-02-28 02:32:07 INFO Multiplication table was successfully written\r\n2023-02-28 02:32:07 INFO ------my Multiplication Table will be print under this log message------\r\n2023-02-28 02:32:07 INFO 1 * 1 = 1\t1 * 2 = 2\t1 * 3 = 3\t1 * 4 = 4\t1 * 5 = 5\t1 * 6 = 6\t1 * 7 = 7\t1 * 8 = 8\t1 * 9 = 9\t\r\n2023-02-28 02:32:07 INFO 2 * 1 = 2\t2 * 2 = 4\t2 * 3 = 6\t2 * 4 = 8\t2 * 5 = 10\t2 * 6 = 12\t2 * 7 = 14\t2 * 8 = 16\t2 * 9 = 18\t\r\n2023-02-28 02:32:07 INFO 3 * 1 = 3\t3 * 2 = 6\t3 * 3 = 9\t3 * 4 = 12\t3 * 5 = 15\t3 * 6 = 18\t3 * 7 = 21\t3 * 8 = 24\t3 * 9 = 27\t\r\n2023-02-28 02:32:07 INFO 4 * 1 = 4\t4 * 2 = 8\t4 * 3 = 12\t4 * 4 = 16\t4 * 5 = 20\t4 * 6 = 24\t4 * 7 = 28\t4 * 8 = 32\t4 * 9 = 36\t\r\n2023-02-28 02:32:07 INFO 5 * 1 = 5\t5 * 2 = 10\t5 * 3 = 15\t5 * 4 = 20\t5 * 5 = 25\t5 * 6 = 30\t5 * 7 = 35\t5 * 8 = 40\t5 * 9 = 45\t\r\n2023-02-28 02:32:07 INFO 6 * 1 = 6\t6 * 2 = 12\t6 * 3 = 18\t6 * 4 = 24\t6 * 5 = 30\t6 * 6 = 36\t6 * 7 = 42\t6 * 8 = 48\t6 * 9 = 54\t\r\n2023-02-28 02:32:07 INFO 7 * 1 = 7\t7 * 2 = 14\t7 * 3 = 21\t7 * 4 = 28\t7 * 5 = 35\t7 * 6 = 42\t7 * 7 = 49\t7 * 8 = 56\t7 * 9 = 63\t\r\n2023-02-28 02:32:07 INFO 8 * 1 = 8\t8 * 2 = 16\t8 * 3 = 24\t8 * 4 = 32\t8 * 5 = 40\t8 * 6 = 48\t8 * 7 = 56\t8 * 8 = 64\t8 * 9 = 72\t\r\n2023-02-28 02:32:07 INFO 9 * 1 = 9\t9 * 2 = 18\t9 * 3 = 27\t9 * 4 = 36\t9 * 5 = 45\t9 * 6 = 54\t9 * 7 = 63\t9 * 8 = 72\t9 * 9 = 81\t\r\n2023-02-28 02:33:09 INFO Float value of min will be returned\r\n2023-02-28 02:33:09 INFO Float value of max will be returned\r\n2023-02-28 02:33:09 INFO Float value of increment will be returned\r\n2023-02-28 02:33:09 INFO Argument of Number type will be cast to BigDecimal type\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Result string was written to arraylist\r\n2023-02-28 02:33:09 INFO Multiplication table was successfully written\r\n2023-02-28 03:19:17 DEBUG Property was successfully read\r\n2023-02-28 03:19:17 INFO Long value of min will be returned\r\n2023-02-28 03:19:17 INFO Long value of max will be returned\r\n2023-02-28 03:19:17 INFO Long value of increment will be returned\r\n2023-02-28 03:19:17 INFO class = class java.lang.Long\r\n2023-02-28 03:19:17 INFO Argument of Number type will be cast to BigDecimal type\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Result string was written to arraylist\r\n2023-02-28 03:19:17 INFO Multiplication table was successfully written\r\n2023-02-28 03:19:17 INFO ------my Multiplication Table will be print under this log message------\r\n2023-02-28 03:19:17 INFO 1 * 1 = 1\t1 * 2 = 2\t1 * 3 = 3\t1 * 4 = 4\t1 * 5 = 5\t1 * 6 = 6\t1 * 7 = 7\t1 * 8 = 8\t1 * 9 = 9\t\r\n2023-02-28 03:19:17 INFO 2 * 1 = 2\t2 * 2 = 4\t2 * 3 = 6\t2 * 4 = 8\t2 * 5 = 10\t2 * 6 = 12\t2 * 7 = 14\t2 * 8 = 16\t2 * 9 = 18\t\r\n2023-02-28 03:19:17 INFO 3 * 1 = 3\t3 * 2 = 6\t3 * 3 = 9\t3 * 4 = 12\t3 * 5 = 15\t3 * 6 = 18\t3 * 7 = 21\t3 * 8 = 24\t3 * 9 = 27\t\r\n2023-02-28 03:19:17 INFO 4 * 1 = 4\t4 * 2 = 8\t4 * 3 = 12\t4 * 4 = 16\t4 * 5 = 20\t4 * 6 = 24\t4 * 7 = 28\t4 * 8 = 32\t4 * 9 = 36\t\r\n2023-02-28 03:19:17 INFO 5 * 1 = 5\t5 * 2 = 10\t5 * 3 = 15\t5 * 4 = 20\t5 * 5 = 25\t5 * 6 = 30\t5 * 7 = 35\t5 * 8 = 40\t5 * 9 = 45\t\r\n2023-02-28 03:19:17 INFO 6 * 1 = 6\t6 * 2 = 12\t6 * 3 = 18\t6 * 4 = 24\t6 * 5 = 30\t6 * 6 = 36\t6 * 7 = 42\t6 * 8 = 48\t6 * 9 = 54\t\r\n2023-02-28 03:19:17 INFO 7 * 1 = 7\t7 * 2 = 14\t7 * 3 = 21\t7 * 4 = 28\t7 * 5 = 35\t7 * 6 = 42\t7 * 7 = 49\t7 * 8 = 56\t7 * 9 = 63\t\r\n2023-02-28 03:19:17 INFO 8 * 1 = 8\t8 * 2 = 16\t8 * 3 = 24\t8 * 4 = 32\t8 * 5 = 40\t8 * 6 = 48\t8 * 7 = 56\t8 * 8 = 64\t8 * 9 = 72\t\r\n2023-02-28 03:19:17 INFO 9 * 1 = 9\t9 * 2 = 18\t9 * 3 = 27\t9 * 4 = 36\t9 * 5 = 45\t9 * 6 = 54\t9 * 7 = 63\t9 * 8 = 72\t9 * 9 = 81\t\r\n2023-02-28 03:20:05 DEBUG Property was successfully read\r\n2023-02-28 03:20:05 INFO Byte value of min will be returned\r\n2023-02-28 03:20:05 INFO Byte value of max will be returned\r\n2023-02-28 03:20:05 INFO Byte value of increment will be returned\r\n2023-02-28 03:20:05 INFO class = class java.lang.Byte\r\n2023-02-28 03:20:05 INFO Argument of Number type will be cast to BigDecimal type\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Result string was written to arraylist\r\n2023-02-28 03:20:05 INFO Multiplication table was successfully written\r\n2023-02-28 03:20:05 INFO ------my Multiplication Table will be print under this log message------\r\n2023-02-28 03:20:05 INFO 1 * 1 = 1\t1 * 2 = 2\t1 * 3 = 3\t1 * 4 = 4\t1 * 5 = 5\t1 * 6 = 6\t1 * 7 = 7\t1 * 8 = 8\t1 * 9 = 9\t\r\n2023-02-28 03:20:05 INFO 2 * 1 = 2\t2 * 2 = 4\t2 * 3 = 6\t2 * 4 = 8\t2 * 5 = 10\t2 * 6 = 12\t2 * 7 = 14\t2 * 8 = 16\t2 * 9 = 18\t\r\n2023-02-28 03:20:05 INFO 3 * 1 = 3\t3 * 2 = 6\t3 * 3 = 9\t3 * 4 = 12\t3 * 5 = 15\t3 * 6 = 18\t3 * 7 = 21\t3 * 8 = 24\t3 * 9 = 27\t\r\n2023-02-28 03:20:05 INFO 4 * 1 = 4\t4 * 2 = 8\t4 * 3 = 12\t4 * 4 = 16\t4 * 5 = 20\t4 * 6 = 24\t4 * 7 = 28\t4 * 8 = 32\t4 * 9 = 36\t\r\n2023-02-28 03:20:05 INFO 5 * 1 = 5\t5 * 2 = 10\t5 * 3 = 15\t5 * 4 = 20\t5 * 5 = 25\t5 * 6 = 30\t5 * 7 = 35\t5 * 8 = 40\t5 * 9 = 45\t\r\n2023-02-28 03:20:05 INFO 6 * 1 = 6\t6 * 2 = 12\t6 * 3 = 18\t6 * 4 = 24\t6 * 5 = 30\t6 * 6 = 36\t6 * 7 = 42\t6 * 8 = 48\t6 * 9 = 54\t\r\n2023-02-28 03:20:05 INFO 7 * 1 = 7\t7 * 2 = 14\t7 * 3 = 21\t7 * 4 = 28\t7 * 5 = 35\t7 * 6 = 42\t7 * 7 = 49\t7 * 8 = 56\t7 * 9 = 63\t\r\n2023-02-28 03:20:05 INFO 8 * 1 = 8\t8 * 2 = 16\t8 * 3 = 24\t8 * 4 = 32\t8 * 5 = 40\t8 * 6 = 48\t8 * 7 = 56\t8 * 8 = 64\t8 * 9 = 72\t\r\n2023-02-28 03:20:05 INFO 9 * 1 = 9\t9 * 2 = 18\t9 * 3 = 27\t9 * 4 = 36\t9 * 5 = 45\t9 * 6 = 54\t9 * 7 = 63\t9 * 8 = 72\t9 * 9 = 81\t\r\n
+===================================================================
+diff --git a/slf4j/roll-by-time-and-size/app.log b/slf4j/roll-by-time-and-size/app.log
+--- a/slf4j/roll-by-time-and-size/app.log	
++++ b/slf4j/roll-by-time-and-size/app.log	
+@@ -284,3 +284,308 @@
+ 2023-02-28 03:20:05 INFO 7 * 1 = 7	7 * 2 = 14	7 * 3 = 21	7 * 4 = 28	7 * 5 = 35	7 * 6 = 42	7 * 7 = 49	7 * 8 = 56	7 * 9 = 63	
+ 2023-02-28 03:20:05 INFO 8 * 1 = 8	8 * 2 = 16	8 * 3 = 24	8 * 4 = 32	8 * 5 = 40	8 * 6 = 48	8 * 7 = 56	8 * 8 = 64	8 * 9 = 72	
+ 2023-02-28 03:20:05 INFO 9 * 1 = 9	9 * 2 = 18	9 * 3 = 27	9 * 4 = 36	9 * 5 = 45	9 * 6 = 54	9 * 7 = 63	9 * 8 = 72	9 * 9 = 81	
++2023-02-28 14:53:33 DEBUG Property was successfully read
++2023-02-28 14:53:33 INFO Byte value of min will be returned
++2023-02-28 14:53:33 INFO Byte value of max will be returned
++2023-02-28 14:53:33 INFO Byte value of increment will be returned
++2023-02-28 14:53:33 INFO class = class java.lang.Byte
++2023-02-28 14:53:33 INFO Argument of Number type will be cast to BigDecimal type
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Result string was written to arraylist
++2023-02-28 14:53:33 INFO Multiplication table was successfully written
++2023-02-28 14:53:33 INFO ------my Multiplication Table will be print under this log message------
++2023-02-28 14:53:33 INFO 1 * 1 = 1	1 * 2 = 2	1 * 3 = 3	1 * 4 = 4	1 * 5 = 5	1 * 6 = 6	1 * 7 = 7	1 * 8 = 8	1 * 9 = 9	
++2023-02-28 14:53:33 INFO 2 * 1 = 2	2 * 2 = 4	2 * 3 = 6	2 * 4 = 8	2 * 5 = 10	2 * 6 = 12	2 * 7 = 14	2 * 8 = 16	2 * 9 = 18	
++2023-02-28 14:53:33 INFO 3 * 1 = 3	3 * 2 = 6	3 * 3 = 9	3 * 4 = 12	3 * 5 = 15	3 * 6 = 18	3 * 7 = 21	3 * 8 = 24	3 * 9 = 27	
++2023-02-28 14:53:33 INFO 4 * 1 = 4	4 * 2 = 8	4 * 3 = 12	4 * 4 = 16	4 * 5 = 20	4 * 6 = 24	4 * 7 = 28	4 * 8 = 32	4 * 9 = 36	
++2023-02-28 14:53:33 INFO 5 * 1 = 5	5 * 2 = 10	5 * 3 = 15	5 * 4 = 20	5 * 5 = 25	5 * 6 = 30	5 * 7 = 35	5 * 8 = 40	5 * 9 = 45	
++2023-02-28 14:53:33 INFO 6 * 1 = 6	6 * 2 = 12	6 * 3 = 18	6 * 4 = 24	6 * 5 = 30	6 * 6 = 36	6 * 7 = 42	6 * 8 = 48	6 * 9 = 54	
++2023-02-28 14:53:33 INFO 7 * 1 = 7	7 * 2 = 14	7 * 3 = 21	7 * 4 = 28	7 * 5 = 35	7 * 6 = 42	7 * 7 = 49	7 * 8 = 56	7 * 9 = 63	
++2023-02-28 14:53:33 INFO 8 * 1 = 8	8 * 2 = 16	8 * 3 = 24	8 * 4 = 32	8 * 5 = 40	8 * 6 = 48	8 * 7 = 56	8 * 8 = 64	8 * 9 = 72	
++2023-02-28 14:53:33 INFO 9 * 1 = 9	9 * 2 = 18	9 * 3 = 27	9 * 4 = 36	9 * 5 = 45	9 * 6 = 54	9 * 7 = 63	9 * 8 = 72	9 * 9 = 81	
++2023-02-28 15:30:47 DEBUG Property was successfully read
++2023-02-28 15:30:47 INFO Byte value of min will be returned
++2023-02-28 15:30:47 INFO Byte value of max will be returned
++2023-02-28 15:30:47 INFO Byte value of increment will be returned
++2023-02-28 15:30:47 INFO class = class java.lang.Byte
++2023-02-28 15:30:47 INFO Argument of Number type will be cast to BigDecimal type
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Result string was written to arraylist
++2023-02-28 15:30:47 INFO Multiplication table was successfully written
++2023-02-28 15:30:47 INFO ------my Multiplication Table will be print under this log message------
++2023-02-28 15:30:47 INFO 1 * 1 = 1	1 * 2 = 2	1 * 3 = 3	1 * 4 = 4	1 * 5 = 5	1 * 6 = 6	1 * 7 = 7	1 * 8 = 8	1 * 9 = 9	
++2023-02-28 15:30:47 INFO 2 * 1 = 2	2 * 2 = 4	2 * 3 = 6	2 * 4 = 8	2 * 5 = 10	2 * 6 = 12	2 * 7 = 14	2 * 8 = 16	2 * 9 = 18	
++2023-02-28 15:30:47 INFO 3 * 1 = 3	3 * 2 = 6	3 * 3 = 9	3 * 4 = 12	3 * 5 = 15	3 * 6 = 18	3 * 7 = 21	3 * 8 = 24	3 * 9 = 27	
++2023-02-28 15:30:47 INFO 4 * 1 = 4	4 * 2 = 8	4 * 3 = 12	4 * 4 = 16	4 * 5 = 20	4 * 6 = 24	4 * 7 = 28	4 * 8 = 32	4 * 9 = 36	
++2023-02-28 15:30:47 INFO 5 * 1 = 5	5 * 2 = 10	5 * 3 = 15	5 * 4 = 20	5 * 5 = 25	5 * 6 = 30	5 * 7 = 35	5 * 8 = 40	5 * 9 = 45	
++2023-02-28 15:30:47 INFO 6 * 1 = 6	6 * 2 = 12	6 * 3 = 18	6 * 4 = 24	6 * 5 = 30	6 * 6 = 36	6 * 7 = 42	6 * 8 = 48	6 * 9 = 54	
++2023-02-28 15:30:47 INFO 7 * 1 = 7	7 * 2 = 14	7 * 3 = 21	7 * 4 = 28	7 * 5 = 35	7 * 6 = 42	7 * 7 = 49	7 * 8 = 56	7 * 9 = 63	
++2023-02-28 15:30:47 INFO 8 * 1 = 8	8 * 2 = 16	8 * 3 = 24	8 * 4 = 32	8 * 5 = 40	8 * 6 = 48	8 * 7 = 56	8 * 8 = 64	8 * 9 = 72	
++2023-02-28 15:30:47 INFO 9 * 1 = 9	9 * 2 = 18	9 * 3 = 27	9 * 4 = 36	9 * 5 = 45	9 * 6 = 54	9 * 7 = 63	9 * 8 = 72	9 * 9 = 81	
++2023-02-28 15:32:43 INFO Float value of min will be returned
++2023-02-28 15:32:43 INFO Float value of max will be returned
++2023-02-28 15:32:43 INFO Float value of increment will be returned
++2023-02-28 15:32:43 INFO class = class java.lang.Float
++2023-02-28 15:32:43 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Multiplication table was successfully written
++2023-02-28 15:32:43 INFO Int value of min will be returned by default
++2023-02-28 15:32:43 INFO Int value of max will be returned by default
++2023-02-28 15:32:43 INFO Int value of increment will be returned by default
++2023-02-28 15:32:43 INFO class = class java.lang.Integer
++2023-02-28 15:32:43 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Multiplication table was successfully written
++2023-02-28 15:32:43 INFO Int value of min will be returned by default
++2023-02-28 15:32:43 INFO Int value of max will be returned by default
++2023-02-28 15:32:43 INFO Int value of increment will be returned by default
++2023-02-28 15:32:43 INFO class = class java.lang.Integer
++2023-02-28 15:32:43 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Multiplication table was successfully written
++2023-02-28 15:32:43 INFO Int value of min will be returned by default
++2023-02-28 15:32:43 INFO Int value of max will be returned by default
++2023-02-28 15:32:43 INFO Int value of increment will be returned by default
++2023-02-28 15:32:43 INFO class = class java.lang.Integer
++2023-02-28 15:32:43 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Result string was written to arraylist
++2023-02-28 15:32:43 INFO Multiplication table was successfully written
++2023-02-28 15:33:36 INFO Float value of min will be returned
++2023-02-28 15:33:36 INFO Float value of max will be returned
++2023-02-28 15:33:36 INFO Float value of increment will be returned
++2023-02-28 15:33:36 INFO class = class java.lang.Float
++2023-02-28 15:33:36 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Multiplication table was successfully written
++2023-02-28 15:33:36 INFO Int value of min will be returned by default
++2023-02-28 15:33:36 INFO Int value of max will be returned by default
++2023-02-28 15:33:36 INFO Int value of increment will be returned by default
++2023-02-28 15:33:36 INFO class = class java.lang.Integer
++2023-02-28 15:33:36 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Multiplication table was successfully written
++2023-02-28 15:33:36 INFO Int value of min will be returned by default
++2023-02-28 15:33:36 INFO Int value of max will be returned by default
++2023-02-28 15:33:36 INFO Int value of increment will be returned by default
++2023-02-28 15:33:36 INFO class = class java.lang.Integer
++2023-02-28 15:33:36 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Multiplication table was successfully written
++2023-02-28 15:33:36 INFO Int value of min will be returned by default
++2023-02-28 15:33:36 INFO Int value of max will be returned by default
++2023-02-28 15:33:36 INFO Int value of increment will be returned by default
++2023-02-28 15:33:36 INFO class = class java.lang.Integer
++2023-02-28 15:33:36 INFO Arguments of Number type will be cast to BigDecimal type
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Result string was written to arraylist
++2023-02-28 15:33:36 INFO Multiplication table was successfully written
++2023-02-28 15:34:01 DEBUG Property was successfully read
++2023-02-28 15:34:01 DEBUG Property was successfully read
++2023-02-28 15:34:01 INFO Int value of min will be returned by default
++2023-02-28 15:34:01 INFO Int value of max will be returned by default
++2023-02-28 15:34:01 INFO Int value of increment will be returned by default
++2023-02-28 15:34:01 INFO BigDecimal value of min will be returned
++2023-02-28 15:34:01 INFO BigDecimal value of max will be returned
++2023-02-28 15:34:01 INFO BigDecimal value of increment will be returned
++2023-02-28 15:34:01 INFO Double value of min will be returned
++2023-02-28 15:34:01 INFO Double value of max will be returned
++2023-02-28 15:34:01 INFO Double value of increment will be returned
++2023-02-28 15:34:01 INFO BigInteger value of min will be returned
++2023-02-28 15:34:01 INFO BigInteger value of max will be returned
++2023-02-28 15:34:01 INFO BigInteger value of increment will be returned
++2023-02-28 15:34:01 INFO Float value of min will be returned
++2023-02-28 15:34:01 INFO Float value of max will be returned
++2023-02-28 15:34:01 INFO Float value of increment will be returned
++2023-02-28 15:34:01 INFO Short value of min will be returned
++2023-02-28 15:34:01 INFO Short value of max will be returned
++2023-02-28 15:34:01 INFO Short value of increment will be returned
++2023-02-28 15:34:01 DEBUG Property was successfully read
++2023-02-28 15:34:01 INFO Byte value of min will be returned
++2023-02-28 15:34:01 INFO Byte value of max will be returned
++2023-02-28 15:34:01 INFO Byte value of increment will be returned
++2023-02-28 15:34:01 INFO Long value of min will be returned
++2023-02-28 15:34:01 INFO Long value of max will be returned
++2023-02-28 15:34:01 INFO Long value of increment will be returned
++2023-02-28 15:34:01 DEBUG Property was successfully read
++2023-02-28 15:34:01 DEBUG Property was successfully read
++2023-02-28 15:37:12 DEBUG Property was successfully read
++2023-02-28 15:37:27 DEBUG Property was successfully read
++2023-02-28 15:37:27 DEBUG Property was successfully read
++2023-02-28 15:37:27 INFO Int value of min will be returned by default
++2023-02-28 15:37:27 INFO Int value of max will be returned by default
++2023-02-28 15:37:27 INFO Int value of increment will be returned by default
++2023-02-28 15:37:27 INFO BigDecimal value of min will be returned
++2023-02-28 15:37:27 INFO BigDecimal value of max will be returned
++2023-02-28 15:37:27 INFO BigDecimal value of increment will be returned
++2023-02-28 15:37:28 INFO Double value of min will be returned
++2023-02-28 15:37:28 INFO Double value of max will be returned
++2023-02-28 15:37:28 INFO Double value of increment will be returned
++2023-02-28 15:37:28 INFO BigInteger value of min will be returned
++2023-02-28 15:37:28 INFO BigInteger value of max will be returned
++2023-02-28 15:37:28 INFO BigInteger value of increment will be returned
++2023-02-28 15:37:28 INFO Float value of min will be returned
++2023-02-28 15:37:28 INFO Float value of max will be returned
++2023-02-28 15:37:28 INFO Float value of increment will be returned
++2023-02-28 15:37:28 INFO Short value of min will be returned
++2023-02-28 15:37:28 INFO Short value of max will be returned
++2023-02-28 15:37:28 INFO Short value of increment will be returned
++2023-02-28 15:37:28 DEBUG Property was successfully read
++2023-02-28 15:37:28 INFO Byte value of min will be returned
++2023-02-28 15:37:28 INFO Byte value of max will be returned
++2023-02-28 15:37:28 INFO Byte value of increment will be returned
++2023-02-28 15:37:28 INFO Long value of min will be returned
++2023-02-28 15:37:28 INFO Long value of max will be returned
++2023-02-28 15:37:28 INFO Long value of increment will be returned
++2023-02-28 15:37:28 DEBUG Property was successfully read
++2023-02-28 15:37:28 DEBUG Property was successfully read

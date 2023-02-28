@@ -14,21 +14,32 @@ import java.math.BigInteger;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(MockitoExtension.class)
 class PropertyManagerTest extends PropertyManager {
+    @Mock
+    Properties prop;
+    Properties properties = new Properties();
+    public PropertyManager pm = new PropertyManager();
 
     @Test
     void testReadPropertyFile() {
+        Properties props = new Properties();
+        PropertyManager pm = new PropertyManager();
+        pm.readPropertyFile("values.properties", properties);
+        pm.readPropertyFile("values.properties", props);
+        assertEquals(properties, props);
     }
 
     @Test
     void testReadPropertiesValue() {
-
+        pm.readPropertyFile("values.properties", properties);
+        assertEquals("1", PropertyManager.getStringPropertiesValue("min", properties));
+        assertEquals("9", PropertyManager.getStringPropertiesValue("max", properties));
+        assertEquals("1", PropertyManager.getStringPropertiesValue("increment", properties));
     }
-    public static final PropertyManager pm =new PropertyManager();
 
-    @Mock
-    Properties prop;
+
     @ParameterizedTest
     @CsvSource({
             "1, 1, min, byte",
@@ -37,7 +48,7 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfByte(String expStr, byte expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
 
     @ParameterizedTest
@@ -48,7 +59,7 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfShort(String expStr, short expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
 
     }
 
@@ -60,7 +71,7 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfInt(String expStr, int expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
 
     @ParameterizedTest
@@ -71,7 +82,7 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfLong(String expStr, long expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
 
     @ParameterizedTest
@@ -82,8 +93,9 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfFloat(String expStr, float expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
+
     @ParameterizedTest
     @CsvSource({
             "1,1,min,double",
@@ -92,8 +104,9 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfDouble(String expStr, double expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
+
     @ParameterizedTest
     @CsvSource({
             "1,1,min,BiGIntegeR",
@@ -102,8 +115,9 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfBigInteger(String expStr, BigInteger expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
+
     @ParameterizedTest
     @CsvSource({
             "1,1,min,BIgDecimAL",
@@ -112,12 +126,6 @@ class PropertyManagerTest extends PropertyManager {
     })
     void testGetValueOfBigDecimal(String expStr, BigDecimal expNum, String key, String type) {
         Mockito.when(prop.getProperty(key)).thenReturn(expStr);
-        // MultiTable multiTableTest = new MultiTable();
-        //Mockito.when(prop.getProperty("max")).thenReturn("9");
-        //    Mockito.when(prop.getProperty("increment")).thenReturn("1");
-        // assertEquals(expStr, prop.getProperty(key));
-        // assertEquals(expStr, prop.getProperty(key));
-        //assertEquals(expStr, prop.getProperty(key));
-        assertEquals(expNum, pm.getValue(prop, key, type));
+        assertEquals(expNum, pm.getNumberPropertiesValue(prop, key, type));
     }
 }

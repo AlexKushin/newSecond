@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="647256ca-a73a-4345-add1-43308f041f36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiTableTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +41,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,17 +64,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "com.shpp.mentoring.okushin.task2.MultiTable",
-    "last_opened_file_path": "C:/workspace/firstPractice",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;com.shpp.mentoring.okushin.task2.MultiTable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/firstPractice&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\workspace\secondPractice2\untitled" />
@@ -85,22 +90,8 @@
       <recent name="com.shpp.mentoring.okushin.task2.test" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MultiTableTest">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.App" />
-      <module name="secondApp2" />
-      <option name="VM_PARAMETERS" value="-Dtype=int" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MultiTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.PropertyManagerTest">
+    <configuration name="MultiplyTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secondApp2" />
       <extension name="coverage">
         <pattern>
@@ -109,13 +100,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiTableTest" />
+      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MultiTableTest.testGetValueOfByte" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MultiplyTableTest.multiplicationFloatTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secondApp2" />
       <extension name="coverage">
         <pattern>
@@ -124,8 +115,40 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiTableTest" />
-      <option name="METHOD_NAME" value="testGetValueOfByte(java.lang.String,byte,java.lang.String,java.lang.String)" />
+      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+      <option name="METHOD_NAME" value="multiplicationFloatTest(float,float,float)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MultiplyTableTest.multiplicationIntTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secondApp2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
+      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+      <option name="METHOD_NAME" value="multiplicationIntTest(int,int,int)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MultiplyTableTest.testPrintInt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secondApp2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
+      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.MultiplyTableTest" />
+      <option name="METHOD_NAME" value="testPrintInt(int,int,int,java.lang.String)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -146,36 +169,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PropertyManagerTest.testReadPropertyFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="secondApp2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shpp.mentoring.okushin.task2.test" />
-      <option name="MAIN_CLASS_NAME" value="com.shpp.mentoring.okushin.task2.test.PropertyManagerTest" />
-      <option name="METHOD_NAME" value="testReadPropertyFile" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="Application.App" />
-      <item itemvalue="JUnit.MultiTableTest.testGetValueOfByte" />
+      <item itemvalue="JUnit.MultiplyTableTest.multiplicationFloatTest" />
+      <item itemvalue="JUnit.MultiplyTableTest.multiplicationIntTest" />
+      <item itemvalue="JUnit.MultiplyTableTest.testPrintInt" />
       <item itemvalue="JUnit.PropertyManagerTest" />
-      <item itemvalue="JUnit.PropertyManagerTest.testReadPropertyFile" />
-      <item itemvalue="JUnit.MultiTableTest" />
+      <item itemvalue="JUnit.MultiplyTableTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MultiTableTest" />
         <item itemvalue="JUnit.PropertyManagerTest" />
-        <item itemvalue="JUnit.PropertyManagerTest.testReadPropertyFile" />
-        <item itemvalue="JUnit.MultiTableTest.testGetValueOfByte" />
-        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.MultiplyTableTest" />
+        <item itemvalue="JUnit.MultiplyTableTest.testPrintInt" />
+        <item itemvalue="JUnit.MultiplyTableTest.multiplicationFloatTest" />
+        <item itemvalue="JUnit.MultiplyTableTest.multiplicationIntTest" />
       </list>
     </recent_temporary>
   </component>
@@ -195,7 +202,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

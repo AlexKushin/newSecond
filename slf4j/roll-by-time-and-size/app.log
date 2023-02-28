@@ -1,0 +1,62 @@
+2023-02-28 17:21:15 INFO Int value of min will be returned by default
+2023-02-28 17:21:15 INFO Int value of max will be returned by default
+2023-02-28 17:21:15 INFO Int value of increment will be returned by default
+2023-02-28 17:21:15 INFO class= class java.lang.Integer
+2023-02-28 17:21:15 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:21:16 INFO Int value of min will be returned by default
+2023-02-28 17:21:16 INFO Int value of max will be returned by default
+2023-02-28 17:21:16 INFO Int value of increment will be returned by default
+2023-02-28 17:21:16 INFO class= class java.lang.Integer
+2023-02-28 17:21:16 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:21:16 INFO Int value of min will be returned by default
+2023-02-28 17:21:16 INFO Int value of max will be returned by default
+2023-02-28 17:21:16 INFO Int value of increment will be returned by default
+2023-02-28 17:21:16 INFO class= class java.lang.Integer
+2023-02-28 17:21:16 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:21:27 INFO Float value of min will be returned
+2023-02-28 17:21:27 INFO Float value of max will be returned
+2023-02-28 17:21:27 INFO Float value of increment will be returned
+2023-02-28 17:21:27 INFO class= class java.lang.Float
+2023-02-28 17:21:27 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:21:27 INFO Int value of min will be returned by default
+2023-02-28 17:21:27 INFO Int value of max will be returned by default
+2023-02-28 17:21:27 INFO Int value of increment will be returned by default
+2023-02-28 17:21:27 INFO class= class java.lang.Integer
+2023-02-28 17:21:27 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:21:27 INFO Int value of min will be returned by default
+2023-02-28 17:21:27 INFO Int value of max will be returned by default
+2023-02-28 17:21:27 INFO Int value of increment will be returned by default
+2023-02-28 17:21:27 INFO class= class java.lang.Integer
+2023-02-28 17:21:27 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:21:27 INFO Int value of min will be returned by default
+2023-02-28 17:21:27 INFO Int value of max will be returned by default
+2023-02-28 17:21:27 INFO Int value of increment will be returned by default
+2023-02-28 17:21:27 INFO class= class java.lang.Integer
+2023-02-28 17:21:27 INFO values of type Number will be cast to BigDecimal Type
+2023-02-28 17:23:51 DEBUG Property was successfully read
+2023-02-28 17:23:51 INFO Int value of min will be returned by default
+2023-02-28 17:23:51 INFO Int value of max will be returned by default
+2023-02-28 17:23:51 INFO Int value of increment will be returned by default
+2023-02-28 17:23:51 INFO Double value of min will be returned
+2023-02-28 17:23:51 INFO Double value of max will be returned
+2023-02-28 17:23:51 INFO Double value of increment will be returned
+2023-02-28 17:23:51 INFO Double value of min will be returned
+2023-02-28 17:23:51 INFO Double value of max will be returned
+2023-02-28 17:23:51 INFO Double value of increment will be returned
+2023-02-28 17:23:51 INFO BigInteger value of min will be returned
+2023-02-28 17:23:51 INFO BigInteger value of max will be returned
+2023-02-28 17:23:51 INFO BigInteger value of increment will be returned
+2023-02-28 17:23:51 INFO Float value of min will be returned
+2023-02-28 17:23:51 INFO Float value of max will be returned
+2023-02-28 17:23:52 INFO Float value of increment will be returned
+2023-02-28 17:23:52 INFO Short value of min will be returned
+2023-02-28 17:23:52 INFO Short value of max will be returned
+2023-02-28 17:23:52 INFO Short value of increment will be returned
+2023-02-28 17:23:52 INFO Byte value of min will be returned
+2023-02-28 17:23:52 INFO Byte value of max will be returned
+2023-02-28 17:23:52 INFO Byte value of increment will be returned
+2023-02-28 17:23:52 INFO Long value of min will be returned
+2023-02-28 17:23:52 INFO Long value of max will be returned
+2023-02-28 17:23:52 INFO Long value of increment will be returned
+2023-02-28 17:23:52 DEBUG Property was successfully read
+2023-02-28 17:23:52 DEBUG Property was successfully read

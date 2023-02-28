@@ -10,23 +10,23 @@ import org.slf4j.LoggerFactory;
  * Hello world!
  */
 public class App {
-    static String MIN = "min";
-    static String MAX = "max";
-    static String INCREMENT = "increment";
+    public static final String MIN = "min";
+    public static final String MAX = "max";
+    public static final String INCREMENT = "increment";
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-        System.out.println("I will have success!!!");
+        logger.info("I will have success!!!");
         Properties properties = new Properties();
         PropertyManager pm = new PropertyManager();
         pm.readPropertyFile("values.properties", properties);
 
         String type = System.getProperty("type");
-        System.out.println(type);
-        MultiTable multiTable = new MultiTable();
-        ArrayList<String> list = multiTable.print(pm.getValue(properties, MIN, type),
-                pm.getValue(properties, MAX, type),
-                pm.getValue(properties, INCREMENT, type));
+        logger.info(type);
+        MultiplyTable multiplyTable = new MultiplyTable();
+        ArrayList<String> list = multiplyTable.writeMultiplyTableToArrayList(pm.getNumberPropertiesValue(properties, MIN, type),
+                pm.getNumberPropertiesValue(properties, MAX, type),
+                pm.getNumberPropertiesValue(properties, INCREMENT, type));
         for (String str : list) {
             logger.info(str);
         }
