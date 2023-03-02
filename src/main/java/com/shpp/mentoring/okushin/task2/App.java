@@ -1,6 +1,6 @@
 package com.shpp.mentoring.okushin.task2;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Properties;
 
@@ -23,11 +23,13 @@ public class App {
         pm.readPropertyFile("values.properties", properties);
 
         String type = System.getProperty("type");
-        logger.info(type);
+
         MultiplyTable multiplyTable = new MultiplyTable();
         List<String> list = multiplyTable.writeMultiplyTableToArrayList(pm.getNumberPropertiesValue(properties, MIN, type),
-                pm.getNumberPropertiesValue(properties, MAX, type),
-                pm.getNumberPropertiesValue(properties, INCREMENT, type));
+                pm.getNumberPropertiesValue(properties, MAX, type), pm.getNumberPropertiesValue(properties, INCREMENT, type));
+
+        logger.info("------my Multiplication Table will be print under this log message------");
+
         for (String str : list) {
             logger.info(str);
         }

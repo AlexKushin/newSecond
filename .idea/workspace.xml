@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="647256ca-a73a-4345-add1-43308f041f36" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slf4j/roll-by-time-and-size/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/slf4j/roll-by-time-and-size/app.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/MultiplyTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/MultiplyTableTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shpp/mentoring/okushin/task2/PropertyManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shpp/mentoring/okushin/task2/test/PropertyManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +96,7 @@
       <option name="VM_PARAMETERS" value="-Dtype=int" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.*" />
+          <option name="PATTERN" value="com.shpp.mentoring.okushin.task2.MultiTable" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>

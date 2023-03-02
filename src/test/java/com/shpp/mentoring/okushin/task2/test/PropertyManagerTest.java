@@ -33,13 +33,33 @@ class PropertyManagerTest extends PropertyManager {
     }
 
     @Test
-    void testReadPropertiesValue() {
+    void testReadPropertiesValueEquals() {
+
         pm.readPropertyFile("values.properties", properties);
         assertEquals("1", PropertyManager.getStringPropertiesValue("min", properties));
         assertEquals("9", PropertyManager.getStringPropertiesValue("max", properties));
         assertEquals("1", PropertyManager.getStringPropertiesValue("increment", properties));
     }
 
+    @Test
+    void testReadPropertiesValueNotEquals() {
+        pm.readPropertyFile("values.properties", properties);
+        assertNotEquals("0", PropertyManager.getStringPropertiesValue("min", properties));
+        assertNotEquals("1", PropertyManager.getStringPropertiesValue("max", properties));
+        assertNotEquals("2", PropertyManager.getStringPropertiesValue("increment", properties));
+    }
+
+    @Test
+    void testReadPropertiesExceptionTest() {
+
+        pm.readPropertyFile("values.properties", properties);
+        Exception exception = assertThrows(NotExistPropertyKeyException.class, () -> {
+            PropertyManager.getStringPropertiesValue("val", properties);
+        });
+        String expectedMessage = "Value of PROPERTY_KEY: val doesn't exist ";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 
     @ParameterizedTest
     @CsvSource({
