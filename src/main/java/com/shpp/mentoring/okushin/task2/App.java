@@ -21,7 +21,9 @@ public class App {
         Properties properties = new Properties();
         PropertyManager pm = new PropertyManager();
         pm.readPropertyFile("values.properties", properties);
-        System.out.println("tghajksdas");
+
+
+
         String type = System.getProperty("type");
 
         MultiplyTable multiplyTable = new MultiplyTable();
